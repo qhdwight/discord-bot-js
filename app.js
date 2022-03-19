@@ -43,10 +43,11 @@ client.on('messageCreate', async (message) => {
             .setURL(song.url)
             .setColor(author.hexAccentColor)
             .setAuthor({
-                name: `Requested by: ${author.toString()}`, iconURL: author.displayAvatarURL()
+                name: 'Added to queue', iconURL: author.displayAvatarURL()
             })
             .addField('Duration', song.duration, true)
             .addField('Uploader', song.author, true)
+            .addField('Requested by', author.toString(), true)
         message.channel.send({embeds: [embed]})
     }
 
@@ -108,14 +109,13 @@ client.on('messageCreate', async (message) => {
                 .setURL(firstSong.url)
                 .setColor(firstSong.requestedBy.hexAccentColor)
                 .setAuthor({
-                    name: `Requested by: ${firstSong.requestedBy.toString()}`,
-                    iconURL: firstSong.requestedBy.displayAvatarURL()
+                    name: 'Requested queue',
+                    iconURL: message.author.displayAvatarURL()
                 })
                 .setDescription(queue.songs.length > 1 ? 'Next in queue:' : '')
             for (let i = 1; i < queue.songs.length; ++i) {
                 const song = queue.songs[i]
-                console.log(song)
-                embed.description += `\n${i}. ${song.name} requested by ${song.requestedBy.toString()}`
+                embed.description += `\n${i}. [${song.name}](${song.url}) requested by ${song.requestedBy.toString()}`
             }
             message.channel.send({embeds: [embed]})
         }
